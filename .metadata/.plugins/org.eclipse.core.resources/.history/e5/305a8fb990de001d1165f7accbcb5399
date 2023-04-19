@@ -1,0 +1,9 @@
+package com.example.backend.service;
+
+import com.example.backend.model.UserModel;
+
+public interface UserService {
+	public UserModel register(UserModel user);
+	public String login(UserModel user);
+	
+}

@@ -1,0 +1,36 @@
+package com.example.backend;
+
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.server.csrf.CsrfToken;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import jakarta.servlet.http.Cookie;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+
+@RestController
+public class HelloController {
+  @GetMapping("/csrf")
+  public void getCsrfToken(HttpServletRequest request, HttpServletResponse response) {
+////    CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+////    if (token == null) {
+////      System.out.println("CsrfToken is null");
+////    } else {
+////      System.out.println("CsrfToken: " + token.getToken());
+////      response.setHeader("X-XSRF-TOKEN", token.getToken());
+////      System.out.println("X-XSRF-TOKEN header set to: " + token.getToken());
+//	  System.out.println("------------------------get request csrf cookie--------------------------");
+//	  
+	  
+    }
+	  
+	  
+  }
+}

@@ -1,0 +1,31 @@
+package com.example.backend;
+
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.server.csrf.CsrfToken;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+
+@RestController
+public class HelloController {
+
+	@GetMapping("/setToken")
+	public ResponseEntity<String> setToken(HttpServletRequest request, HttpServletResponse response) {
+	    CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+	    if (csrfToken != null) {
+	        Cookie cookie = new Cookie("XSRF-TOKEN", csrfToken.getToken());
+	        response.addCookie(cookie);
+	        return ResponseEntity.ok().build();
+	    } else {
+	        return ResponseEntity.badRequest().build();
+	    }
+	}
+
+}

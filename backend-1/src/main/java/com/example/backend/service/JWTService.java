@@ -1,0 +1,45 @@
+package com.example.backend.service;
+
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.stereotype.Service;
+
+import com.example.backend.constatns.JWTConstants;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+
+
+@Service
+public class JWTService {
+	
+	
+
+	public String generateToken(String username) {
+		Map<String, Object> claims = new HashMap<>();
+
+		return createToken(claims, username);
+	}
+
+	private String createToken(Map<String, Object> claims, String userName) {
+		 SecretKey key = Keys.hmacShaKeyFor(JWTConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(userName)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*30))
+                .signWith(key, SignatureAlgorithm.HS256).compact();
+    }
+
+	
+
+}

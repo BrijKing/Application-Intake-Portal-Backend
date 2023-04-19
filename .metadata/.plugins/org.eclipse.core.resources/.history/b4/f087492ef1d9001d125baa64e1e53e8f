@@ -1,0 +1,75 @@
+package com.example.backend.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.backend.model.UserModel;
+import com.example.backend.repo.UserRepo;
+
+import java.util.*;
+
+
+
+@CrossOrigin
+@RestController
+public class UserController {
+	
+	@Autowired
+	UserRepo ur;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	AuthenticationManager authenticationManager;
+	
+	
+	
+	@GetMapping("/")
+	public String home() {
+		return "Hello";
+	}
+
+	@PostMapping("/register")
+	public UserModel register(@RequestBody UserModel user) {
+		
+		String hashPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(hashPassword);
+		
+		return ur.save(user);
+	}
+	
+	@PostMapping("/user")
+	public UserModel login(@RequestBody UserModel user) {
+		
+		//UserModel userObject = ur.findByUsername(user.getUsername());
+		String hashPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(hashPassword);
+		
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()))
+		
+		return user;
+		
+		
+		
+}
+	
+	@GetMapping("/getuser")
+	public List<UserModel> get() {
+		
+		return ur.findAll();
+		
+	}
+}
