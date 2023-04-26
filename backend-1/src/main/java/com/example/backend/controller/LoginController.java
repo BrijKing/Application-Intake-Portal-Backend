@@ -45,9 +45,10 @@ public class LoginController {
 		} else {
 			Authentication auth = authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+			return new ResponseEntity<String>(jwtService.generateToken(user.getUsername()), HttpStatus.OK);
 		}
 
-		return new ResponseEntity<String>(jwtService.generateToken(user.getUsername()), HttpStatus.OK);
+		
 	}
 
 	@PostMapping("/register")
