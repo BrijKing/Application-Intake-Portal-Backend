@@ -1,0 +1,9 @@
+package com.example.backend.Exceptions;
+
+public class CustomException extends Exception {
+	
+	public CustomException() {
+		super("User name not Found");
+	}
+
+}

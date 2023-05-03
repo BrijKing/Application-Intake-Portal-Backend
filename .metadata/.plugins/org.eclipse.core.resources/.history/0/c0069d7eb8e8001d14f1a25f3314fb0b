@@ -1,0 +1,20 @@
+package com.example.backend.Handler;
+
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.example.backend.Exceptions.CustomException;
+
+@RestControllerAdvice
+public class MyExceptionHandler {
+	
+	
+	@ExceptionHandler
+	public ResponseEntity<?> Mymessage(Exception e){
+		return new ResponseEntity<>(e.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+	}
+
+}

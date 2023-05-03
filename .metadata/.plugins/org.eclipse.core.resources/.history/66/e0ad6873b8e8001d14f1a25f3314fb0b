@@ -1,0 +1,9 @@
+package com.example.backend.Exceptions;
+
+public class UserNotFoundException extends Exception {
+	
+	public CustomException() {
+		super("Password Wrong!!!!!");
+	}
+
+}

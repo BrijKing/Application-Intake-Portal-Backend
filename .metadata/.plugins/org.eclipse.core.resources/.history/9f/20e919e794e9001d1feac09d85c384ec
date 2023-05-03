@@ -1,0 +1,13 @@
+package com.example.backend.Exceptions;
+
+public class InvalidEmailOrPasswordException extends Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public InvalidEmailOrPasswordException(String str) {
+		super(str);
+	}
+}

@@ -1,6 +1,8 @@
 package com.example.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import com.example.backend.Exceptions.UserNotFoundCustomeException;
 import com.example.backend.model.UserModel;
 import com.example.backend.repo.UserRepo;
 import com.example.backend.service.JWTService;
@@ -35,21 +41,20 @@ public class LoginController {
 	JWTService jwtService;
 
 	@PostMapping("/user")
-	public ResponseEntity<String> loginUser(@RequestBody UserModel user) {
-
-		List<UserModel> userList = ur.findByUsername(user.getUsername());
-		
-		if (userList.size() == 0) {
-			return new ResponseEntity<String>("Username of password not valid", HttpStatus.NOT_FOUND);
-
-		} else {
-			Authentication auth = authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-			return new ResponseEntity<String>(jwtService.generateToken(user.getUsername()), HttpStatus.OK);
-		}
+	public ResponseEntity<String> loginUser(@RequestBody UserModel user) throws UserNotFoundCustomeException{
 
 		
+		if(ur.findByUsername(user.getUsername()).isPresent()) {
+    		Authentication auth = authenticationManager.authenticate(
+    				new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+    		return new ResponseEntity<String>(jwtService.generateToken(user.getUsername()), HttpStatus.OK);
+    	}
+    	else {
+    		throw new UserNotFoundCustomeException();
+    	}
 	}
+	
+	
 
 	@PostMapping("/register")
 	public UserModel register(@RequestBody UserModel user) {

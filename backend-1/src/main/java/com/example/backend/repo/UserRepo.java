@@ -1,6 +1,7 @@
 package com.example.backend.repo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -10,7 +11,7 @@ public interface UserRepo extends MongoRepository<UserModel, String> {
 	
 	List<UserModel> findByUsernameAndPassword(String username,String password);
 	
-	 List<UserModel> findByUsername(String username);
+	Optional<UserModel> findByUsername(String username); 
 	
 	
 
