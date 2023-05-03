@@ -1,16 +1,25 @@
 package com.example.backend.service;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.constatns.JWTConstants;
+import com.example.backend.model.UserModel;
+import com.example.backend.repo.UserRepo;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,6 +34,8 @@ import java.security.Key;
 public class JWTService {
 	
 	
+	@Autowired
+	UserRepo ur;
 
 	public String generateToken(String username) {
 		Map<String, Object> claims = new HashMap<>();
@@ -33,16 +44,27 @@ public class JWTService {
 	}
 
 	private String createToken(Map<String, Object> claims, String userName) {
+		
+		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		 
+//		 System.out.println(authentication);
+		 
 		 SecretKey key = Keys.hmacShaKeyFor(JWTConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userName)
-//                .claim("roles", roles)
+                .claim("authorities", populateAuthorities(userName))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*30))
                 .signWith(key, SignatureAlgorithm.HS256).compact();
     }
 
-	
+	 private String populateAuthorities(String userName) {
+		 
+		 Optional<UserModel>  userInfo = ur.findByUsername(userName);
+		 
+		  return userInfo.get().getRole();
+	        
+	    }
 
 }

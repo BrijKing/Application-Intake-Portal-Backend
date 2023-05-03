@@ -95,7 +95,7 @@ public class SpringSecurityConfig {
 				.addFilterAfter(new JWTTTokenValidation(), BasicAuthenticationFilter.class)
 				
 				.authorizeHttpRequests() 
-				.requestMatchers("/validateCustomer").hasRole("ADMIN")
+				.requestMatchers("/getCustomersList").hasRole("ADMIN")
 				.requestMatchers("/user", "/register", "/csrf").permitAll()
 				.anyRequest().authenticated()
 				

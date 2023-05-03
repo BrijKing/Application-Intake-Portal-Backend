@@ -47,6 +47,7 @@ public class LoginController {
 		if(ur.findByUsername(user.getUsername()).isPresent()) {
     		Authentication auth = authenticationManager.authenticate(
     				new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+    		
     		return new ResponseEntity<String>(jwtService.generateToken(user.getUsername()), HttpStatus.OK);
     	}
     	else {
