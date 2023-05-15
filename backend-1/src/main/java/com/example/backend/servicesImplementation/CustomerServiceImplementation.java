@@ -7,17 +7,20 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.core.query.UpdateDefinition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.backend.model.Customer;
 import com.example.backend.model.CustomerForApprovement;
 import com.example.backend.repo.CustomerForApprovementRepo;
@@ -29,7 +32,10 @@ import com.example.backend.service.CustomerService;
 public class CustomerServiceImplementation implements CustomerService{
 	@Autowired
 	CustomerRepo custRepo;
-
+	
+	@Autowired
+	MongoTemplate mongoTemplate;
+	
 	@Autowired
 	CustomerForApprovement customerForApprovement;
 
@@ -50,12 +56,16 @@ public class CustomerServiceImplementation implements CustomerService{
 		InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 		return ResponseEntity.ok().headers(headers).body(inputStreamResource);
 	}
+	
 	@Override
 	public Map<String, String> validateCustomer(@RequestBody Map<String, Object> requestParams) {
 		HashMap<String, String> map = new HashMap<>();
+	
+		
 
 		String email = (String) requestParams.get("email");
 		System.out.println(email);
+		System.out.println("method called");
 		String fname = (String) requestParams.get("fname");
 		String lname = (String) requestParams.get("lname");
 		String city = (String) requestParams.get("city");
@@ -64,7 +74,7 @@ public class CustomerServiceImplementation implements CustomerService{
 		
 		if (custRepo.findByEmail(email).size() > 0) {
 			Customer customer = custRepo.findByEmail(email).get(0);
-			
+			System.out.println("customer found");
 			Boolean validFname =false;
 			if(fname!=null)
 				validFname = customer.getFname().equalsIgnoreCase(fname.trim());
@@ -110,15 +120,80 @@ public class CustomerServiceImplementation implements CustomerService{
 		customerForApprovement.setEmail(email);
 		customerForApprovement.setAddress(address);
 		customerForApprovement.setState(state);
+		customerForApprovement.setApprovementStatus((String)requestParams.get("approvementStatus"));
+		String addedBy=(String)requestParams.get("addedBy");
+		customerForApprovement.setAddedBy(addedBy);
 		customerForApprovement.setPdf(binary);
-		customerForApprovementRepo.save(customerForApprovement);
+		 List<CustomerForApprovement> existingRecord = customerForApprovementRepo.findByEmail(email);
+		
+		 if(existingRecord.size()>0)	 
+		 {	
+			 
+			 CustomerForApprovement record = customerForApprovementRepo.findByEmail(email).get(0);
+			 Query query = new Query(Criteria.where("email").is(email));
+			 Update update = new Update().set("pdf", binary);
+			 mongoTemplate.updateFirst(query, update, "customerForApprovement");
+		 }
+		 else {
+			 customerForApprovementRepo.save(customerForApprovement);
+		 }
 		map.put("result", "submitted");
 		return map;
 	}
+	
 	@Override
 	public List<Customer> getCustomerList() {
 		// TODO Auto-generated method stub
 		return custRepo.findAll();
+	}
+	
+	@Override
+	public List<CustomerForApprovement> getCustomerForApprovement() {
+		// TODO Auto-generated method stub
+		return customerForApprovementRepo.findAll();
+	}
+	@Override
+	public void addCustomer(Customer customer) {
+		custRepo.save(customer);
+		
+	}
+	
+	@Override
+	public void deleteCustomer(String email) {
+		custRepo.deleteByEmail(email);
+		
+	}
+	
+//	@Override
+//	public void updateCustomer(Customer customer) {
+//		// TODO Auto-generated method stub
+//		custRepo.(customer);
+//		
+//		Query q= new Query().addCriteria(Criteria.where("email").is(customer.getEmail()));
+//		Update update = mongoTemplate.updateMulti(q, UpdateDefinition, Customer.class); 
+//	}
+
+	public List<CustomerForApprovement> getCustomerListForAgent(String email) {
+		// TODO Auto-generated method stub		
+		return customerForApprovementRepo.findByEmail(email);
+	}
+	
+	public Customer updateCustomer(Customer customer) {
+		return custRepo.save(customer);
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<CustomerForApprovement> getListOfCutomerForReview() {
+		// TODO Auto-generated method stub
+		return customerForApprovementRepo.findAllWihoutPdf();
+	}
+
+	public void reviewDoneBy(String email) {
+		// TODO Auto-generated method stub
+		
+	   customerForApprovementRepo.reviewDoneBy(email);
 	}
 
 }

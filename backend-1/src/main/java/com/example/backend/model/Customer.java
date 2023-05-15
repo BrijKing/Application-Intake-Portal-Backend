@@ -2,7 +2,6 @@ package com.example.backend.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
-
 import jakarta.persistence.Id;
 
 @Document
@@ -15,6 +14,7 @@ public class Customer {
 	String address;
 	String city;
 	String state;
+	
 	public Customer() {
 		super();
 	}

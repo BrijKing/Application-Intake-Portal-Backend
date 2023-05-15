@@ -1,9 +1,0 @@
-package com.example.backend.Exceptions;
-
-public class CustomException extends Exception {
-	
-	public CustomException() {
-		super("My own Exception");
-	}
-
-}
