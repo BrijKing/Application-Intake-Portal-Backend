@@ -1,16 +1,22 @@
 package com.example.backend.model;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.bson.types.Binary;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.backend.dto.ApprovedCustomer;
 
 import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
+import org.springframework.data.annotation.Transient;
+
 
 @Document
 @Component
 public class CustomerForApprovement {
 	@Id
+	@Indexed(unique = true)
 	private String email;
 	private String fname;
 	private String lname;
@@ -19,21 +25,31 @@ public class CustomerForApprovement {
 	private String state;
 	private String approvementStatus; // 0->disapproved, 1->Approved, 2->Pending
 	private String addedBy;
-	private int is_customer_approved;
+//	private ApprovedCustomer approvedCustomer;
+	private String pdfName;
+
 	@Transient
-	private Binary pdf;
-
-
-	public int getIs_customer_approved() {
-		return is_customer_approved;
+	MultipartFile pdf;
+	
+	public String getPdfName() {
+		return pdfName;
 	}
 
-	public void setIs_customer_approved(int is_customer_approved) {
-		this.is_customer_approved = is_customer_approved;
+	public void setPdfName(String pdfName) {
+		this.pdfName = pdfName;
 	}
+
+	String reviewerEmail;
+	
+	private Binary signedPdf;
+
+
+
+
+
 
 	public CustomerForApprovement(String email, String fname, String lname, String address, String city, String state,
-			String approvementStatus, String addedBy, int is_customer_approved, Binary pdf) {
+			String approvementStatus, String addedBy, MultipartFile pdf, String reviewerEmail, Binary signedPdf) {
 		super();
 		this.email = email;
 		this.fname = fname;
@@ -43,8 +59,9 @@ public class CustomerForApprovement {
 		this.state = state;
 		this.approvementStatus = approvementStatus;
 		this.addedBy = addedBy;
-		this.is_customer_approved = is_customer_approved;
 		this.pdf = pdf;
+		this.reviewerEmail = reviewerEmail;
+		this.signedPdf = signedPdf;
 	}
 
 	public CustomerForApprovement() {
@@ -115,11 +132,11 @@ public class CustomerForApprovement {
 		this.state = state;
 	}
 
-	public Binary getPdf() {
+	public MultipartFile getPdf() {
 		return pdf;
 	}
 
-	public void setPdf(Binary pdf) {
+	public void setPdf(MultipartFile pdf) {
 		this.pdf = pdf;
 	}
 
@@ -127,7 +144,29 @@ public class CustomerForApprovement {
 	public String toString() {
 		return "CustomerForApprovement [email=" + email + ", fname=" + fname + ", lname=" + lname + ", address="
 				+ address + ", city=" + city + ", state=" + state + ", approvementStatus=" + approvementStatus
-				+ ", addedBy=" + addedBy + ", pdf=" + pdf + "]";
+				+ ", addedBy=" + addedBy + ", pdf=" + pdf + ", reviewerEmail=" + reviewerEmail + ", signedPdf="
+				+ signedPdf + "]";
 	}
+
+	public String getReviewerEmail() {
+		return reviewerEmail;
+	}
+
+	public void setReviewerEmail(String reviewerEmail) {
+		this.reviewerEmail = reviewerEmail;
+	}
+
+	public Binary getSignedPdf() {
+		return signedPdf;
+	}
+
+	public void setSignedPdf(Binary signedPdf) {
+		this.signedPdf = signedPdf;
+	}
+
+
+
+
+
 
 }

@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.example.backend.config.CsrfTokenGeneratorConfig"/>
-    <fullyQualifiedTypeName name="jakarta.servlet.http.Cookie"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestControllerAdvice"/>
-    <fullyQualifiedTypeName name="org.apache.catalina.connector.Response"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ExceptionHandler"/>
-    <fullyQualifiedTypeName name="com.example.backend.Exceptions.CustomException"/>
-    <fullyQualifiedTypeName name="springfox.documentation.swagger2.annotations.EnableSwagger2"/>
-    <fullyQualifiedTypeName name="org.springframework.context.annotation.Configuration"/>
-    <fullyQualifiedTypeName name="springfox.documentation.spring.web.plugins.Docket"/>
-    <fullyQualifiedTypeName name="springfox.documentation.spi.DocumentationType"/>
-    <fullyQualifiedTypeName name="springfox.documentation.builders.RequestHandlerSelectors"/>
-    <fullyQualifiedTypeName name="springfox.documentation.builders.PathSelectors"/>
-    <fullyQualifiedTypeName name="com.example.backend.Exceptions.UserNotFoundException"/>
-    <fullyQualifiedTypeName name="ch.qos.logback.core.net.SyslogOutputStream"/>
-    <fullyQualifiedTypeName name="com.example.backend.config.UserNamePwdProvider"/>
-    <fullyQualifiedTypeName name="java.lang.System"/>
-    <fullyQualifiedTypeName name="org.springframework.security.authentication.AuthenticationManager"/>
-    <fullyQualifiedTypeName name="org.springframework.security.access.prepost.PreAuthorize"/>
-    <fullyQualifiedTypeName name="org.springframework.security.crypto.password.PasswordEncoder"/>
     <fullyQualifiedTypeName name="org.springframework.security.config.annotation.web.oauth2.login.UserInfoEndpointDsl"/>
     <fullyQualifiedTypeName name="org.springframework.security.core.userdetails.UserDetails"/>
     <fullyQualifiedTypeName name="java.util.Arrays"/>
@@ -42,7 +23,6 @@
     <fullyQualifiedTypeName name="java.util.Collection"/>
     <fullyQualifiedTypeName name="java.util.Set"/>
     <fullyQualifiedTypeName name="java.util.HashSet"/>
-    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="com.example.backend.repo.UserRepo"/>
     <fullyQualifiedTypeName name="java.util.Optional"/>
     <fullyQualifiedTypeName name="com.example.backend.model.UserModel"/>
@@ -58,6 +38,26 @@
     <fullyQualifiedTypeName name="com.example.backend.filter.CsrfCookieFilter"/>
     <fullyQualifiedTypeName name="org.springframework.security.web.authentication.www.BasicAuthenticationFilter"/>
     <fullyQualifiedTypeName name="org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler"/>
-    <fullyQualifiedTypeName name="com.example.backend.model.User"/>
     <fullyQualifiedTypeName name="com.example.backend.filter.JWTTTokenValidation"/>
+    <fullyQualifiedTypeName name="java.lang.AssertionError"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.DisplayNameGeneration"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.DisplayNameGenerator"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.DisplayNameGenerator.Simple"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.TestMethodOrder"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.MethodOrderer"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.MethodOrderer.Random"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.MethodOrderer.OrderAnnotation"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.Order"/>
+    <fullyQualifiedTypeName name="com.example.backend.model.Customer"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.Assertions"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.BeforeEach"/>
+    <fullyQualifiedTypeName name="org.springframework.boot.test.mock.mockito.MockBean"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.DisplayName"/>
+    <fullyQualifiedTypeName name="com.example.backend.model.User"/>
+    <fullyQualifiedTypeName name="org.springframework.boot.test.context.SpringBootTest"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.Test"/>
+    <fullyQualifiedTypeName name="org.springframework.data.mongodb.repository.Query"/>
+    <fullyQualifiedTypeName name="org.springframework.data.mongodb.repository.Update"/>
 </qualifiedTypeNameHistroy>

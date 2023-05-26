@@ -13,16 +13,20 @@
 //
 //public class CsrfCookieFilter extends OncePerRequestFilter{
 //
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-//            throws ServletException, IOException {
-//    	  CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-//    	  System.out.println("csrf token ::::  "+ csrfToken);
-//          if(csrfToken.getHeaderName() != null){
-//        	  System.out.println("csrfToken ::: " + csrfToken.getToken());
-//              response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
-//          }
-//          filterChain.doFilter(request, response);
-//    }
+//	
+//	@Override
+//	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+//	        throws ServletException, IOException {
+//	    CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+//	    if (csrfToken != null) {
+//	        System.out.println("csrf token ::::  " + csrfToken);
+//	        if (csrfToken.getHeaderName() != null) {
+//	            System.out.println("csrfToken ::: " + csrfToken.getToken());
+//	            response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
+//	        }
+//	    }
+//	    filterChain.doFilter(request, response);
+//	}
+//
 //}
 //

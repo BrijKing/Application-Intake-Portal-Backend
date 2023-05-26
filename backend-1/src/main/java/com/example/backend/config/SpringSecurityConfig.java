@@ -22,14 +22,12 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.example.backend.filter.JWTTTokenValidation;
-
 import java.time.Duration;
 import java.util.Collections;
 
 //import com.example.backend.filter.CsrfCookieFilter;
-//import com.example.backend.filter.JWTTTokenValidation;
-//import com.example.backend.service.UserInfoUserDetailsService;
+import com.example.backend.filter.JWTTTokenValidation;
+import com.example.backend.service.UserInfoUserDetailsService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -41,15 +39,17 @@ public class SpringSecurityConfig {
 	@Bean
 	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 
+		System.out.println();
+
 		return config.getAuthenticationManager();
 	}
 
-//	@Bean
-//	// authentication
-//	public UserDetailsService userDetailsService() {
-//
-//		return new UserInfoUserDetailsService();
-//	}
+	@Bean
+	// authentication
+	public UserDetailsService userDetailsService() {
+
+		return new UserInfoUserDetailsService();
+	}
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -79,7 +79,7 @@ public class SpringSecurityConfig {
 			}
 		}).and().csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
 				.csrfTokenRepository(cookieCsrfTokenRepository)
-				.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()).ignoringRequestMatchers("/user"))
+				.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
 
 //				.addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
 				.addFilterAfter(new JWTTTokenValidation(), BasicAuthenticationFilter.class).authorizeHttpRequests()
@@ -88,7 +88,7 @@ public class SpringSecurityConfig {
 						"/getAllEmployees", "/isApprove")
 				.hasRole("ADMIN").requestMatchers("/getCustomersListForAgent/*").hasRole("AGENT")
 
-				.requestMatchers("/user", "/register", "/csrf").permitAll().anyRequest().authenticated()
+				.requestMatchers("/user", "/register","/verify").permitAll().anyRequest().authenticated()
 
 		;
 
@@ -101,11 +101,11 @@ public class SpringSecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-//	@Bean
-//	public AuthenticationProvider authenticationProvider() {
-//		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//		authenticationProvider.setUserDetailsService(userDetailsService());
-//		authenticationProvider.setPasswordEncoder(passwordEncoder());
-//		return authenticationProvider;
-//	}
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailsService());
+		authenticationProvider.setPasswordEncoder(passwordEncoder());
+		return authenticationProvider;
+	}
 }
