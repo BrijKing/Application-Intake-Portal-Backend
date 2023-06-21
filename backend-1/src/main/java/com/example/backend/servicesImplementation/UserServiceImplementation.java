@@ -41,6 +41,7 @@ public class UserServiceImplementation implements UserService {
 		ur.deleteByEmail(email);
 		return "User Deleted Successfully";
 	}
+	
 	@Override
 	public List<User> getAllUsers() {
 		// TODO Auto-generated method stub

@@ -64,7 +64,5 @@ public class UserAccountVerification {
 	public String toString() {
 		return "UserAccountVerification [verification_id=" + verification_id + ", email=" + email + ", mobile_number="
 				+ mobile_number + ", role=" + role + ", password=" + password + "]";
-	}
-	
-	
+	}	
 }

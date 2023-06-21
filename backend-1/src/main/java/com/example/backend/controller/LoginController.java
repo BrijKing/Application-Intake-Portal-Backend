@@ -37,7 +37,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @RestController
 public class LoginController {
 
-
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -62,8 +61,17 @@ public class LoginController {
 			User u = ur.findByEmail(user.getEmail()).get();
 			if (u.getIs_approved() == 1) {
 				try {
+				if(u.getIsRegisterWithGoogle() == 1) {
+					
+					Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), "SignWithGoogle"));
+				}
+				else {
 					Authentication auth = authenticationManager
 							.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+				}
+				
+					
+				
 				} catch (Exception e) {
 					return new ResponseEntity<String>("Authentication Failed", HttpStatus.UNAUTHORIZED);
 				}
@@ -74,6 +82,7 @@ public class LoginController {
 			throw new UserNotFoundCustomeException();
 
 	}
-
+	
+	
 	
 }

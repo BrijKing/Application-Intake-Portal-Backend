@@ -59,10 +59,6 @@ public class CustomerController {
 	@Autowired
 	CustomerForApprovementRepo cr;
 
-
-
-
-
 	@RequestMapping("/getCustomersList")
 	public List<Customer> getAllCustomers() {
 		return customerService.getCustomerList(); 

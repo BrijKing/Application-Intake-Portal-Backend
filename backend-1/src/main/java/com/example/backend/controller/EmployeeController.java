@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +45,7 @@ public class EmployeeController {
 
 //		String hashPassword = passwordEncoder.encode(user.getPassword());
 //		user.setPassword(hashPassword);
+		user.setIsRegisterWithGoogle(0);
 		user.setIsVerified(0);
 		HashMap<String, String> map = new HashMap<>();
 		user.setIs_approved(0);
@@ -62,6 +64,8 @@ public class EmployeeController {
 
 		map.put(user.getEmail(), verification_id);
 		session.setAttribute(user.getEmail(), map);
+		System.out.println("map is set "+map);
+		System.out.println("printing session.getAttribute"+ session.getAttribute(user.getEmail()));
 		session.setMaxInactiveInterval(900);
 		System.out.println(session.getAttribute(user.getEmail()));
 		ur.save(user);
@@ -74,8 +78,7 @@ public class EmployeeController {
 		
 //		String hashPassword = passwordEncoder.encode(user.getPassword());
 		String email=requestParams.get("email");
-		String role = requestParams.get("role");
-		ur.setRole(email, role);
+		System.out.println("Email found "+email);
 //		user.setPassword(hashPassword);
 		Optional<User>savedUser = ur.findByEmail(email);
 	    if(savedUser.isPresent() )
@@ -83,10 +86,11 @@ public class EmployeeController {
 	    	
 //	    	if(savedUser.get().getPassword()!=null) {
 	    		HttpSession session=request.getSession();
+	    		System.out.println(" session is "+session);
 	    		System.out.println("token recieved from front end "+requestParams.get("verification_id"));
 	    	
 	    		HashMap<String, String> map=(HashMap)session.getAttribute(email);
-	    		System.out.println(map);
+	    		System.out.println("map is : "+map);
 	    		if(map==null) {
 	    			System.out.println("verification failed");
 	    			return new ResponseEntity<String>("Verification Failed", HttpStatus.UNAUTHORIZED);
@@ -108,6 +112,23 @@ public class EmployeeController {
 	    }
 	  
         return new ResponseEntity<String>("Customer Not  Found", HttpStatus.NOT_FOUND);
+	}
+	
+	@PostMapping("/registerWithGoogle")
+	public ResponseEntity<String> registerWithGoogle(@RequestBody User user){
+		
+		user.setIsRegisterWithGoogle(1);
+		user.setIsVerified(1);
+//		System.out.println("Hello" + user);
+		String hashPassword = passwordEncoder.encode("SignWithGoogle");
+		user.setPassword(hashPassword);
+
+		
+		
+		ur.save(user);
+		
+		return new ResponseEntity<String>("User Register Successfully", HttpStatus.CREATED);
+		
 	}
 
 	@GetMapping("/getAllEmployees")

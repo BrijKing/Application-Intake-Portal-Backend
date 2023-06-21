@@ -40,24 +40,7 @@ public class EmailServiceImplementation implements EmailService {
 				} catch (MessagingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-//					 int maxRetries = 3;
-//			            int retryCount = 0;
-//			            
-//			            while (retryCount < maxRetries) {
-//			                try {
-//			                    // Wait for a short duration before retrying
-//			                    Thread.sleep(3000);
-//			                    
-//			                    // Retry sending the email
-//			                    sendEmail(to, subject, body);
-//			                    break; // Exit the loop if the email is sent successfully
-//			                } catch (Exception e) {
-//			                    retryCount++;
-//			                    if (retryCount >= maxRetries) {
-//			                        e1.printStackTrace();
-//			                    }
-//			                }
-//			            }
+
 				}
 		    }, executor);
 	

@@ -78,7 +78,7 @@ public class SpringSecurityConfig {
 				return config;
 			}
 		}).and().csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
-				.csrfTokenRepository(cookieCsrfTokenRepository)
+				.csrfTokenRepository(cookieCsrfTokenRepository).ignoringRequestMatchers("/register","/registerWithGoogle")
 				.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
 
 //				.addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
@@ -88,7 +88,7 @@ public class SpringSecurityConfig {
 						"/getAllEmployees", "/isApprove")
 				.hasRole("ADMIN").requestMatchers("/getCustomersListForAgent/*").hasRole("AGENT")
 
-				.requestMatchers("/user", "/register","/verify").permitAll().anyRequest().authenticated()
+				.requestMatchers("/user", "/register","/verify","/registerWithGoogle").permitAll().anyRequest().authenticated()
 
 		;
 

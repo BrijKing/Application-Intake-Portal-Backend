@@ -22,9 +22,20 @@ public class User {
 	private String password;
 	private int is_approved;
 	private int isVerified;
+	private int isRegisterWithGoogle;
+	
+	
 
 	public int getIs_approved() {
 		return is_approved;
+	}
+
+	public int getIsRegisterWithGoogle() {
+		return isRegisterWithGoogle;
+	}
+
+	public void setIsRegisterWithGoogle(int isRegisterWithGoogle) {
+		this.isRegisterWithGoogle = isRegisterWithGoogle;
 	}
 
 	public void setIs_approved(int is_approved) {
@@ -37,7 +48,7 @@ public class User {
 
 	
 
-	public User(String id, String email, String role, String mono, String password, int is_approved, int isVerified) {
+	public User(String id, String email, String role, String mono, String password, int is_approved, int isVerified, int isRegisterWithGoogle) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -46,6 +57,7 @@ public class User {
 		this.password = password;
 		this.is_approved = is_approved;
 		this.isVerified = isVerified;
+		this.isRegisterWithGoogle = isRegisterWithGoogle;
 	}
 
 	public int getIsVerified() {
